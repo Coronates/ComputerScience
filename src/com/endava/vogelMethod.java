@@ -44,6 +44,17 @@ public class vogelMethod {
     public int[] largestPenalty(int longi1, int longi2, boolean esFila ){
         int diferenciaMax= Integer.MIN_VALUE;
         int indexDiffMax, costoMin, indexCostoMin= -1;
+        for (int i =0; i<longi1; i++ ){
+            if (esFila ? filaTerminada[i] : columnaTerminada[i])
+                continue;
+            int[] localPenalty = penalty(longi2, i, esFila);
+            if (localPenalty[0] > diferenciaMax) {
+                diferenciaMax = localPenalty[0];  // max diff
+                indexDiffMax = i;       // pos of max diff
+                 = res[1];  // min cost
+                pc = res[2];  // pos of min cost
+
+        }
 
 
     }
