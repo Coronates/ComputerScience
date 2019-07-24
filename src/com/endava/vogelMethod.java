@@ -21,20 +21,31 @@ public class vogelMethod {
     /* este metodo busca restar las dos unidades de distancia mas pequeñas para cada fila y columna
         adquiriendo el Penalty, retorna ademas del penalti, el valor del peso minimo y su posicion*/
 
-    public int[] penalty(int longitud, int j, boolean esFila){
+    public int[] penalty( int j, int longitud, boolean esFila){
         int min= Integer.MAX_VALUE;
         int min2= Integer.MAX_VALUE;
         int indexMin=-1;
         for(int i=0; i<longitud; i++){
-            if (esFila ? columnaTerminada[i] : filaTerminada[i])
+            boolean listo;
+            if (esFila) {
+                listo = columnaTerminada[i];
+            } else {
+                listo = filaTerminada[i];
+            }
+            if (listo) {
                 continue;
+            }
+            /*se hallan los dos valores mas pequeños, ya sea de una fila o columna
+             empiezan los dos minimos siendo "infinito", después el primer numero es mas pequeño, pero antes de igualarlo a min1 se debe guardar el que ahora es el segundo mas pequeño en m2 */
             int peso = esFila ? pesos[j][i] : pesos[i][j];
             if (peso < min) {
                 min2 = min;
                 min = peso;
                 indexMin = i;
-            } else if (peso < min2)
+            }
+            else if (peso < min2){
                 min2 = peso;
+            }
         }
         int[] retorno= new int[] {min2 - min, min, indexMin};
       return retorno;
@@ -43,23 +54,35 @@ public class vogelMethod {
 
     public int[] largestPenalty(int longi1, int longi2, boolean esFila ){
         int diferenciaMax= Integer.MIN_VALUE;
-        int indexDiffMax, costoMin, indexCostoMin= -1;
+        int indexDiffMax= -1;
+        int costoMin=-1;
+        int indexCostoMin=-1;
+
         for (int i =0; i<longi1; i++ ){
-            if (esFila ? filaTerminada[i] : columnaTerminada[i])
+            boolean listo;
+            if (esFila){
+                listo=filaTerminada[i];
+            }else{
+                listo=columnaTerminada[i];
+            }
+            if (listo){
                 continue;
-            int[] localPenalty = penalty(longi2, i, esFila);
+            }
+            int[] localPenalty = penalty(i, longi2, esFila);
             if (localPenalty[0] > diferenciaMax) {
-                diferenciaMax = localPenalty[0];  // max diff
-                indexDiffMax = i;       // pos of max diff
-                 = res[1];  // min cost
-                pc = res[2];  // pos of min cost
+                diferenciaMax = localPenalty[0];
+                indexDiffMax = i;
+                costoMin = localPenalty[1];
+                indexCostoMin = localPenalty[2];
+            }
+
 
         }
-
+        if (esFila) {
+            return new int[]{indexDiffMax, indexCostoMin, costoMin, diferenciaMax};
+        }
+        return new int[]{indexCostoMin, indexDiffMax, costoMin, diferenciaMax};
 
     }
-
-
-
 
 }
