@@ -6,7 +6,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class leerArchivo {
-    static int matrizPeso[][]={};
+    static int matrizFinal[][]={};
+    static int totales[][] ={};
 
     public String leerArchivo(String filePath)
     {
@@ -17,61 +18,87 @@ public class leerArchivo {
         ArrayList<String> destinos = new ArrayList<>();
 
 
+
         StringBuilder contentBuilder = new StringBuilder();
         try (BufferedReader br = new BufferedReader(new FileReader(filePath)))
         {
 
             String line;
             int cont=0;
+            boolean flag=true;
+            matrizPesos mP=new matrizPesos();
             while ((line = br.readLine()) != null)
             {
                 String datosCadaLinea[] = line.split(",");
 
                 if (datosCadaLinea.length <= 2) {
-                    cont++;
+                    //cont++;
                     nodos.add(datosCadaLinea[0]);
                     tipos.add(datosCadaLinea[1]);
-                    Nodo n= new Nodo(cont, datosCadaLinea[0],datosCadaLinea[1]);
+                    //Nodo n= new Nodo(cont, datosCadaLinea[0],datosCadaLinea[1]);
 
                 }else{
                     int n=nodos.size();
-                    int matrixx[][]= new int[n][n];
-                    for (int i=0; i<matrixx.length;i++){
+                    int matrixx[][]= metodoPesos(n);
+                    if(flag) {
+                        mP = new matrizPesos(matrixx);
+                        flag=false;
+                    }
+
+                    //matrizPesos mP=new matrizPesos(matrixx);
+                    /*for (int i=0; i<matrixx.length;i++){
                         for (int j=0; j<matrixx.length;j++){
                             if (matrixx[i][j]==0) {
 
                             }
                         }
-                    }
+                    }*/
 
                     int x= nodos.indexOf(datosCadaLinea[0]);
                     int y= nodos.indexOf(datosCadaLinea[1]);
                     matrixx[x][y]=Integer.parseInt(datosCadaLinea[2]);
                     matrixx[y][x]=Integer.parseInt(datosCadaLinea[2]);
+                    mP.setMatrizFinal(x,y,Integer.parseInt(datosCadaLinea[2]));
+                    totales= mP.getMatrizFinal();
+
+
+                    System.out.println(matrixx[x][y]);
+
+//                    matrizPeso[x][y]=Integer.parseInt(datosCadaLinea[2]);
+//                    matrizPeso[y][x]=Integer.parseInt(datosCadaLinea[2]);
 
                     origenes.add(datosCadaLinea[0]);
                     destinos.add(datosCadaLinea[1]);
                     pesos.add(Integer.parseInt(datosCadaLinea[2]));
-                    Arista ar= new Arista(datosCadaLinea[0],datosCadaLinea[1],Integer.parseInt(datosCadaLinea[2]));
+                    //Arista ar= new Arista(datosCadaLinea[0],datosCadaLinea[1],Integer.parseInt(datosCadaLinea[2]));
 
                 }
                 contentBuilder.append(line).append("\n");
+
             }
+
+
+
         }
         catch (IOException e)
         {
             e.printStackTrace();
         }
 
-
-
-
-
-
+        System.out.println("//////////"+totales.length);
         return contentBuilder.toString();
     }
-    public int[][] matrizPesos(int tamano, int fila, int columna, int valor){
+    public int[][] metodoPesos(int n){
+        int matrizPeso[][]=new int[n][n];
+        for (int i=0; i<n;i++){
+            for (int j=0; j<n;j++){
+                matrizPeso[i][j]=0;
+            }
+        }
 
         return matrizPeso;
+    }
+    public int[][] tabla(){
+        return totales;
     }
 }

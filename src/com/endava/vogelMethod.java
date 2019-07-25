@@ -66,7 +66,7 @@ public class vogelMethod {
         int min2= Integer.MAX_VALUE;
         int indexMin=-1;
         for(int i=0; i<longitud; i++){
-            boolean listo=false;
+            boolean listo;
             /*comprobación de disponibilidad de las celdas, verifica si esa celda esta tachada o no
             * si es true itera al proximo i del for*/
             if (esFila) {
@@ -101,7 +101,7 @@ public class vogelMethod {
         int indexCostoMin=-1;
 
         for (int i =0; i<longi1; i++ ){
-            boolean listo=false;
+            boolean listo;
             //validacion de flag
             if (esFila){
                 listo=flagRow[i];
