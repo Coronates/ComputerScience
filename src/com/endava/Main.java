@@ -11,5 +11,9 @@ public class Main {
     public static void main(String[] args) {
 	// write your code here
       vogelMethod vvm= new vogelMethod(oferta,demanda,pesos);
+        String grafo = "C:\\Users\\LENOVO\\IdeaProjects\\ComputerScience\\src\\files\\ChallengeGraph";
+        leerArchivo lA=new leerArchivo();
+        String resultado=lA.leerArchivo(grafo);
+        System.out.println(resultado);
     }
 }
