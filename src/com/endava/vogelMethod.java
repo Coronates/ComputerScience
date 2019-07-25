@@ -25,8 +25,8 @@ public class vogelMethod {
 
         sumatoria s=new sumatoria();
         ofertaTotal=s.sumatoria(oferta);
+        int[] unidad= TieBreak();
         while (ofertaTotal>0){
-            int[] unidad= TieBreak();
             int indexRow=unidad[2];
             int indexColumn=unidad[3];
             //minimo para no tener negativos en la resta
@@ -102,6 +102,7 @@ public class vogelMethod {
 
         for (int i =0; i<longi1; i++ ){
             boolean listo=false;
+            //validacion de flag
             if (esFila){
                 listo=flagRow[i];
             }else{
@@ -110,6 +111,7 @@ public class vogelMethod {
             if (listo){
                 continue;
             }
+
             int[] localPenalty = penalty(i, longi2, esFila);
             if (localPenalty[0] > diferenciaMax) {
                 diferenciaMax = localPenalty[0];

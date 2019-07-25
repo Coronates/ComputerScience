@@ -34,12 +34,25 @@ public class leerArchivo {
                     Nodo n= new Nodo(cont, datosCadaLinea[0],datosCadaLinea[1]);
 
                 }else{
+                    int n=nodos.size();
+                    int matrixx[][]= new int[n][n];
+                    for (int i=0; i<matrixx.length;i++){
+                        for (int j=0; j<matrixx.length;j++){
+                            if (matrixx[i][j]==0) {
+
+                            }
+                        }
+                    }
+
                     int x= nodos.indexOf(datosCadaLinea[0]);
                     int y= nodos.indexOf(datosCadaLinea[1]);
+                    matrixx[x][y]=Integer.parseInt(datosCadaLinea[2]);
+                    matrixx[y][x]=Integer.parseInt(datosCadaLinea[2]);
+
                     origenes.add(datosCadaLinea[0]);
                     destinos.add(datosCadaLinea[1]);
                     pesos.add(Integer.parseInt(datosCadaLinea[2]));
-                    Arista a= new Arista(datosCadaLinea[0],datosCadaLinea[1],Integer.parseInt(datosCadaLinea[2]));
+                    Arista ar= new Arista(datosCadaLinea[0],datosCadaLinea[1],Integer.parseInt(datosCadaLinea[2]));
 
                 }
                 contentBuilder.append(line).append("\n");
