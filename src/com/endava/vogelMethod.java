@@ -3,19 +3,55 @@ package com.endava;
 
 public class vogelMethod {
 
-        int[] demanda = {30, 20, 70, 30, 60};
-        int[] oferta = {50, 60, 50, 50};
-        int[][] pesos = {{16, 16, 13, 22, 17}, {14, 14, 13, 19, 15},
-                {19, 19, 20, 23, 50}, {50, 12, 50, 15, 11}};
-        int nFilas = oferta.length;
-        int nColumnas = demanda.length;
-        boolean[] filaTerminada = new boolean[nFilas];
-        boolean[] columnaTerminada = new boolean[nColumnas];
-        int[][] result = new int[nFilas][nColumnas];
+        int[] demanda = {};
+        int[] oferta = {};
+        int[][] pesos = {};
+        int nColumnas;
+        int nFilas;
+        boolean[] filaTerminada;
+        boolean[] columnaTerminada;
+        int[][] pesosFinal;
 
-    //int remanente = sumaOferta(oferta);
+    public vogelMethod(int[] supply, int[] demand, int [][] weight) {
+        this.oferta=supply;
+        this.demanda=demand;
+        this.pesos=weight;
+        int ofertaTotal=0;
+        nColumnas = demanda.length;
+        nFilas = oferta.length;
+         filaTerminada = new boolean[nFilas];
+         columnaTerminada = new boolean[nColumnas];
+         pesosFinal = new int[nFilas][nColumnas];
 
-    public vogelMethod() {
+        sumatoria s=new sumatoria();
+        ofertaTotal=s.sumatoria(oferta);
+        while (ofertaTotal>0){
+            int[] unidad= filaVsCol();
+            int indexMaxDiff=unidad[2];
+            int indexMinCost=unidad[3];
+            int allocator = Math.min(demanda[indexMinCost], oferta[indexMaxDiff]);
+            demanda[indexMinCost] -= allocator;
+            if (demanda[indexMinCost] == 0)
+                columnaTerminada[indexMinCost] = true;
+
+            oferta[indexMaxDiff] -= allocator;
+            if (oferta[indexMaxDiff] == 0)
+                filaTerminada[indexMaxDiff] = true;
+
+            pesosFinal[indexMaxDiff][indexMinCost] = allocator;
+            ofertaTotal -= allocator;
+
+
+        }
+        System.out.println("    A   B   C   D   E");
+        for(int i =0; i<nFilas; i++){
+            System.out.print((" "));
+            for (int j = 0; j < nColumnas; ++j)
+                System.out.print(pesosFinal[i][j]+"   ");
+            System.out.println(" ");
+
+        }
+
 
     }
     /* este metodo busca restar las dos unidades de distancia mas pequeñas para cada fila y columna
@@ -47,8 +83,8 @@ public class vogelMethod {
                 min2 = peso;
             }
         }
-        int[] retorno= new int[] {min2 - min, min, indexMin};
-      return retorno;
+
+      return new int[] {min2 - min, min, indexMin};
     }
 
 
@@ -79,10 +115,35 @@ public class vogelMethod {
 
         }
         if (esFila) {
-            return new int[]{indexDiffMax, indexCostoMin, costoMin, diferenciaMax};
+            return new int[]{diferenciaMax,costoMin, indexDiffMax, indexCostoMin };
+        }else {
+            return new int[]{diferenciaMax,costoMin,indexCostoMin, indexDiffMax};
         }
-        return new int[]{indexCostoMin, indexDiffMax, costoMin, diferenciaMax};
-
     }
+    public int[] filaVsCol(){
+        int lp1[]=largestPenalty(nFilas,nColumnas,true);
+        int lp2[]=largestPenalty(nColumnas,nFilas,false);
+        int option=-1;
+        //comparar los penalties maximos.
+        if(lp1[0] == lp2[0]){
+            option=0;
+        }else if(lp1[0] > lp2[0]){
+            option=1;
+        }
+        switch(option){
+            case 0: //rompo el tie, cojo arbitrariamente una de las dos
+                if (lp1[1]<lp2[1]){
+                    return lp1;
+                }else{
+                    return lp2;
+                }
+            case 1: //la diferencia o penalty del segundo es mas alto
+                return lp2;
+            default:
+                return lp1;//retorno el primero
+
+        }
+    }
+
 
 }
