@@ -8,8 +8,8 @@ public class vogelMethod {
         int[][] pesos = {};
         int nColumnas;
         int nFilas;
-        boolean[] filaTerminada;
-        boolean[] columnaTerminada;
+        boolean[] flagRow;
+        boolean[] flagcolumn;
         int[][] pesosFinal;
 
     public vogelMethod(int[] supply, int[] demand, int [][] weight) {
@@ -19,31 +19,35 @@ public class vogelMethod {
         int ofertaTotal=0;
         nColumnas = demanda.length;
         nFilas = oferta.length;
-         filaTerminada = new boolean[nFilas];
-         columnaTerminada = new boolean[nColumnas];
+         flagRow = new boolean[nFilas];
+         flagcolumn = new boolean[nColumnas];
          pesosFinal = new int[nFilas][nColumnas];
 
         sumatoria s=new sumatoria();
         ofertaTotal=s.sumatoria(oferta);
+        int[] unidad= TieBreak();
         while (ofertaTotal>0){
-            int[] unidad= filaVsCol();
-            int indexMaxDiff=unidad[2];
-            int indexMinCost=unidad[3];
-            int allocator = Math.min(demanda[indexMinCost], oferta[indexMaxDiff]);
-            demanda[indexMinCost] -= allocator;
-            if (demanda[indexMinCost] == 0)
-                columnaTerminada[indexMinCost] = true;
-
-            oferta[indexMaxDiff] -= allocator;
-            if (oferta[indexMaxDiff] == 0)
-                filaTerminada[indexMaxDiff] = true;
-
-            pesosFinal[indexMaxDiff][indexMinCost] = allocator;
+            int indexRow=unidad[2];
+            int indexColumn=unidad[3];
+            //minimo para no tener negativos en la resta
+            int allocator = Math.min(demanda[indexColumn], oferta[indexRow]);
+            demanda[indexColumn] -= allocator;
+            oferta[indexRow] -= allocator;
+            //se realiza la resta de la cantidad, si es 0 significa que ya lleno su capacidad
+            // , y se pone el flag en esa posicion
+            if (demanda[indexColumn] == 0)
+                flagcolumn[indexColumn] = true;
+            if (oferta[indexRow] == 0)
+                flagRow[indexRow] = true;
+            //se actualiza en la matriz final, la celda con
+            // costo minimo de la fila o columna con mayor diferencia,
+            pesosFinal[indexRow][indexColumn] = allocator;
+            //se actualiza el remanente
             ofertaTotal -= allocator;
 
 
         }
-        System.out.println("    A   B   C   D   E");
+
         for(int i =0; i<nFilas; i++){
             System.out.print((" "));
             for (int j = 0; j < nColumnas; ++j)
@@ -63,10 +67,12 @@ public class vogelMethod {
         int indexMin=-1;
         for(int i=0; i<longitud; i++){
             boolean listo;
+            /*comprobación de disponibilidad de las celdas, verifica si esa celda esta tachada o no
+            * si es true itera al proximo i del for*/
             if (esFila) {
-                listo = columnaTerminada[i];
+                listo = flagcolumn[i];
             } else {
-                listo = filaTerminada[i];
+                listo = flagRow[i];
             }
             if (listo) {
                 continue;
@@ -96,14 +102,16 @@ public class vogelMethod {
 
         for (int i =0; i<longi1; i++ ){
             boolean listo;
+            //validacion de flag
             if (esFila){
-                listo=filaTerminada[i];
+                listo=flagRow[i];
             }else{
-                listo=columnaTerminada[i];
+                listo=flagcolumn[i];
             }
             if (listo){
                 continue;
             }
+
             int[] localPenalty = penalty(i, longi2, esFila);
             if (localPenalty[0] > diferenciaMax) {
                 diferenciaMax = localPenalty[0];
@@ -120,7 +128,7 @@ public class vogelMethod {
             return new int[]{diferenciaMax,costoMin,indexCostoMin, indexDiffMax};
         }
     }
-    public int[] filaVsCol(){
+    public int[] TieBreak(){
         int lp1[]=largestPenalty(nFilas,nColumnas,true);
         int lp2[]=largestPenalty(nColumnas,nFilas,false);
         int option=-1;

@@ -61,6 +61,7 @@ public class leerArchivo {
                     destinos.add(datosCadaLinea[1]);
                     pesos.add(Integer.parseInt(datosCadaLinea[2]));
 
+
                 }
                 contentBuilder.append(line).append("\n");
 
