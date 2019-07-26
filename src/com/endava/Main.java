@@ -6,6 +6,7 @@ public class Main {
     static int[] oferta = {80, 40, 50, 20};
     static int[][] pesos = {{0, 1, 3, 22, 17}, {14, 14, 13, 19, 15},
             {29, 10, 150, 33, 50}, {0, 12, 50, 15, 11}};
+    static int[][] totales={};
 
 
     public static void main(String[] args) {
@@ -15,5 +16,20 @@ public class Main {
         leerArchivo lA=new leerArchivo();
         String resultado=lA.leerArchivo(grafo);
         System.out.println(resultado);
+
+        matrizPesos mP=new matrizPesos();
+
+        totales= lA.tabla();
+        System.out.println(totales.length);
+
+
+
+        for (int i=0; i<totales.length;i++){
+            for (int j=0; j<totales.length;j++){
+                System.out.print(totales[i][j]);
+            }
+            System.out.println(" ");
+        }
+
     }
 }
