@@ -45,14 +45,6 @@ public class leerArchivo {
                         flag=false;
                     }
 
-                    //matrizPesos mP=new matrizPesos(matrixx);
-                    /*for (int i=0; i<matrixx.length;i++){
-                        for (int j=0; j<matrixx.length;j++){
-                            if (matrixx[i][j]==0) {
-
-                            }
-                        }
-                    }*/
 
                     int x= nodos.indexOf(datosCadaLinea[0]);
                     int y= nodos.indexOf(datosCadaLinea[1]);
@@ -64,13 +56,11 @@ public class leerArchivo {
 
                     System.out.println(matrixx[x][y]);
 
-//                    matrizPeso[x][y]=Integer.parseInt(datosCadaLinea[2]);
-//                    matrizPeso[y][x]=Integer.parseInt(datosCadaLinea[2]);
 
                     origenes.add(datosCadaLinea[0]);
                     destinos.add(datosCadaLinea[1]);
                     pesos.add(Integer.parseInt(datosCadaLinea[2]));
-                    //Arista ar= new Arista(datosCadaLinea[0],datosCadaLinea[1],Integer.parseInt(datosCadaLinea[2]));
+
 
                 }
                 contentBuilder.append(line).append("\n");

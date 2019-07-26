@@ -17,6 +17,7 @@ public class Main {
         leerArchivo lA=new leerArchivo();
         String resultado=lA.leerArchivo(grafo);
         System.out.println(resultado);
+
         matrizPesos mP=new matrizPesos();
 
         totales= lA.tabla();
@@ -32,14 +33,4 @@ public class Main {
         }
 
 
-
-
-        // Adding edges one by one.
-
-
-    }
-//    public int[][] getMatrix(){
-//
-//
-//    }
 }
